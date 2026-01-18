@@ -1,0 +1,29 @@
+.container {
+    padding-top: var(--header-height);
+    min-height: 100vh;
+    background-color: var(--color-background);
+}
+
+.hero {
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    margin-bottom: 3rem;
+}
+
+.title {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+.content {
+    padding-bottom: 5rem;
+}

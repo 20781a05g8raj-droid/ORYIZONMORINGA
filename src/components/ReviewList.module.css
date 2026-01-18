@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.noReviews {
+    font-style: italic;
+    color: #888;
+}
+
+.review {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.review:last-child {
+    border-bottom: none;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.author {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.rating {
+    display: flex;
+    color: var(--color-secondary);
+}
+
+.starFilled {
+    color: var(--color-secondary);
+}
+
+.starEmpty {
+    color: #ddd;
+}
+
+.date {
+    font-size: 0.85rem;
+    color: #999;
+    margin-left: auto;
+}
+
+.text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}

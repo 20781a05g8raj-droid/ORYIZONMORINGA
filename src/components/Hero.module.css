@@ -1,0 +1,62 @@
+.heroContainer {
+    position: relative;
+    height: 500vh;
+    /* Scrollytelling distance */
+    background-color: var(--color-background);
+}
+
+/* Wrapper to be pinned by GSAP */
+.pinWrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-background);
+    z-index: 100;
+    color: var(--color-primary);
+}
+
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    pointer-events: none;
+    width: 100%;
+    /* Ensure styles like mix-blend-mode persist if needed, though they might conflict with opacity fade */
+    color: var(--color-text-light);
+}
+
+.headline {
+    font-size: clamp(2rem, 5vw, 5rem);
+    color: #F9F7F2;
+    /* Ensuring visibility against dark/complex bgs */
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.brandName {
+    color: var(--color-secondary);
+    font-style: italic;
+}
