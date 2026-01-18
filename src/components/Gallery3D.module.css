@@ -1,0 +1,117 @@
+.gallerySection {
+    background-color: #050505;
+    position: relative;
+    /* Large height for scroll distance */
+    height: 300vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.stickyWrapper {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    perspective: 1000px;
+    /* Essential for 3D */
+}
+
+.headline {
+    font-size: 4rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    font-weight: 200;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    position: absolute;
+    top: 10%;
+    z-index: 10;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.cardsContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardContainer {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    /* Allow scroll through */
+}
+
+.card {
+    width: 800px;
+    /* Fixed width for consistency */
+    height: 500px;
+    background-color: #1a1a1a;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transform-origin: top center;
+    pointer-events: auto;
+    /* Re-enable pointer events for cards */
+}
+
+.imageWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.image {
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .image {
+    transform: scale(1.05);
+}
+
+.cardOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+}
+
+.cardOverlay h3 {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 90%;
+        height: 300px;
+    }
+
+    .headline {
+        font-size: 2rem;
+    }
+}

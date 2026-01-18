@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
@@ -79,18 +80,6 @@ export default function Hero() {
             }
         });
 
-        // Text Animation: Fade out and move up as user scrolls
-        // We want it to be visible initially, then disappear so it doesn't block the sequence
-        gsap.to(`.${styles.overlay}`, {
-            opacity: 0,
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top top",
-                end: "15% top",
-                scrub: true
-            }
-        });
-
         function renderFrame(index: number) {
             const img = imagesRef.current[Math.round(index)];
             if (!img || !context) return;
@@ -117,6 +106,11 @@ export default function Hero() {
 
     const pinRef = useRef<HTMLDivElement>(null);
 
+    // Framer Motion for text
+    const { scrollY } = useScroll();
+    const textY = useTransform(scrollY, [0, 500], [0, -150]);
+    const textOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
     return (
         <section ref={containerRef} className={styles.heroContainer}>
             <div ref={pinRef} className={styles.pinWrapper}>
@@ -128,14 +122,36 @@ export default function Hero() {
                     </div>
                 )}
 
-                {/* Floating Overlay Content */}
-                <div className={styles.overlay}>
+                {/* Floating Overlay Content with Framer Motion */}
+                <motion.div
+                    style={{ y: textY, opacity: textOpacity }}
+                    className={styles.overlay}
+                >
                     <h1 className={styles.headline}>
-                        <span>Nature’s Origin.</span><br />
-                        <span>Your New Horizon.</span><br />
-                        <span className={styles.brandName}>Oryizon.</span>
+                        <motion.span
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5, duration: 0.8 }}
+                        >
+                            Nature’s Origin.
+                        </motion.span><br />
+                        <motion.span
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.7, duration: 0.8 }}
+                        >
+                            Your New Horizon.
+                        </motion.span><br />
+                        <motion.span
+                            className={styles.brandName}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 1.0, duration: 0.8 }}
+                        >
+                            Oryizon.
+                        </motion.span>
                     </h1>
-                </div>
+                </motion.div>
             </div>
         </section>
     );
