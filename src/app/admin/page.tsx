@@ -120,24 +120,6 @@ export default function AdminPage() {
                 </div>
             </div>
 
-            {/* Persistence Warning */}
-            <div style={{
-                backgroundColor: '#fff3cd',
-                color: '#856404',
-                padding: '1rem',
-                margin: '0 auto 2rem',
-                maxWidth: '1200px',
-                borderRadius: '8px',
-                border: '1px solid #ffeeba',
-                fontSize: '0.9rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-            }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                <strong>Demo Mode:</strong> Any changes made here are saved to your <u>current browser's storage only</u>. They will not appear on other devices or accounts unless a real database is connected.
-            </div>
-
             <section className={styles.section}>
                 <div className={styles.sectionHeader}>
                     <h2 className={styles.sectionTitle}>{activeTab === 'products' ? 'Manage Products' : activeTab === 'blog' ? 'Manage Blog Posts' : 'Manage Orders'}</h2>

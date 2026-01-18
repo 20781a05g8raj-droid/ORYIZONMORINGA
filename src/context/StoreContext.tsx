@@ -1,8 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { PRODUCTS } from '@/data/products';
-import { BLOG_POSTS } from '@/data/posts';
+import { supabase } from '@/lib/supabase';
 
 // Define Types
 export type Product = {
@@ -39,7 +38,7 @@ export type Order = {
     id: string;
     date: string;
     status: OrderStatus;
-    trackingDetails?: string; // e.g. "FedEx: 123456"
+    trackingDetails?: string;
     items: any[];
     total: number;
     customer: {
@@ -55,26 +54,19 @@ type StoreContextType = {
     posts: BlogPost[];
     orders: Order[];
 
-    // Product Actions
-    addProduct: (product: Product) => void;
-    updateProduct: (id: string, updates: Partial<Product>) => void;
-    deleteProduct: (id: string) => void;
+    addProduct: (product: Product) => Promise<void>;
+    updateProduct: (id: string, updates: Partial<Product>) => Promise<void>;
+    deleteProduct: (id: string) => Promise<void>;
 
-    // Blog Actions
-    addPost: (post: BlogPost) => void;
-    updatePost: (id: string, updates: Partial<BlogPost>) => void;
-    deletePost: (id: string) => void;
+    addPost: (post: BlogPost) => Promise<void>;
+    updatePost: (id: string, updates: Partial<BlogPost>) => Promise<void>;
+    deletePost: (id: string) => Promise<void>;
 
-    // Order Actions
-    addOrder: (order: Order) => void;
-    updateOrder: (id: string, updates: Partial<Order>) => void;
+    addOrder: (order: Order) => Promise<void>;
+    updateOrder: (id: string, updates: Partial<Order>) => Promise<void>;
 
     resetStore: () => void;
 };
-
-// ...
-
-// --- Order Actions ---
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
@@ -82,105 +74,98 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     const [products, setProducts] = useState<Product[]>([]);
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
-
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Initialize Store
+    const fetchData = async () => {
+        try {
+            const { data: prodData } = await supabase.from('products').select('*');
+            if (prodData) setProducts(prodData);
+
+            const { data: postData } = await supabase.from('posts').select('*');
+            if (postData) setPosts(postData);
+
+            const { data: orderData } = await supabase.from('orders').select('*');
+            if (orderData) setOrders(orderData);
+
+            setIsLoaded(true);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
     useEffect(() => {
-        // Load Products
-        const savedProducts = localStorage.getItem('oryizon_products');
-        if (savedProducts) {
-            let parsed = JSON.parse(savedProducts);
-            // Migration: Ensure 'images' array exists or update if it contains old/default images
-            parsed = parsed.map((p: Product) => {
-                const staticData = PRODUCTS.find((d: any) => d.id === p.id);
-                // Check if current images are missing, empty, only have default, OR contain the old 'product2.png' etc which we just replaced
-                const needsUpdate = !p.images ||
-                    p.images.length === 0 ||
-                    (p.images.length === 1 && p.images[0] === '/product.png') ||
-                    p.images.some(img => img.includes('product2.png') || img.includes('product3.png') || img.includes('product4.png'));
+        fetchData();
 
-                if (staticData?.images && needsUpdate) {
-                    return { ...p, images: staticData.images, image: staticData.image };
-                }
-                return p;
-            });
-            setProducts(parsed);
-        } else {
-            setProducts(PRODUCTS as Product[]);
-        }
-
-        // Load Posts
-        const savedPosts = localStorage.getItem('oryizon_posts');
-        if (savedPosts) {
-            setPosts(JSON.parse(savedPosts));
-        } else {
-            setPosts(BLOG_POSTS as BlogPost[]);
-        }
-
-        // Load Orders
-        const savedOrders = localStorage.getItem('oryizon_orders');
-        if (savedOrders) {
-            setOrders(JSON.parse(savedOrders));
-        }
-
-        setIsLoaded(true);
+        // Optional: Realtime subscriptions could go here
     }, []);
 
-    // Persist Store
-    useEffect(() => {
-        if (isLoaded) {
-            localStorage.setItem('oryizon_products', JSON.stringify(products));
-            localStorage.setItem('oryizon_posts', JSON.stringify(posts));
-            localStorage.setItem('oryizon_orders', JSON.stringify(orders));
-        }
-    }, [products, posts, orders, isLoaded]);
 
     // --- Product Actions ---
-    const addProduct = (product: Product) => {
-        setProducts(prev => [product, ...prev]);
+    const addProduct = async (product: Product) => {
+        const { error } = await supabase.from('products').insert([product]);
+        if (!error) setProducts(prev => [product, ...prev]);
+        else console.error(error);
     };
 
-    const updateProduct = (id: string, updates: Partial<Product>) => {
-        setProducts(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
+    const updateProduct = async (id: string, updates: Partial<Product>) => {
+        const { error } = await supabase.from('products').update(updates).eq('id', id);
+        if (!error) setProducts(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
+        else console.error(error);
     };
 
-    const deleteProduct = (id: string) => {
-        setProducts(prev => prev.filter(p => p.id !== id));
+    const deleteProduct = async (id: string) => {
+        const { error } = await supabase.from('products').delete().eq('id', id);
+        if (!error) setProducts(prev => prev.filter(p => p.id !== id));
+        else console.error(error);
     };
 
     // --- Blog Actions ---
-    const addPost = (post: BlogPost) => {
-        setPosts(prev => [post, ...prev]);
+    const addPost = async (post: BlogPost) => {
+        const { error } = await supabase.from('posts').insert([post]);
+        if (!error) setPosts(prev => [post, ...prev]);
+        else console.error(error);
     };
 
-    const updatePost = (id: string, updates: Partial<BlogPost>) => {
-        setPosts(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
+    const updatePost = async (id: string, updates: Partial<BlogPost>) => {
+        const { error } = await supabase.from('posts').update(updates).eq('id', id);
+        if (!error) setPosts(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
+        else console.error(error);
     };
 
-    const deletePost = (id: string) => {
-        setPosts(prev => prev.filter(p => p.id !== id));
+    const deletePost = async (id: string) => {
+        const { error } = await supabase.from('posts').delete().eq('id', id);
+        if (!error) setPosts(prev => prev.filter(p => p.id !== id));
+        else console.error(error);
     };
 
     // --- Order Actions ---
-    const addOrder = (order: Order) => {
-        setOrders(prev => [order, ...prev]);
+    const addOrder = async (order: Order) => {
+        const { error } = await supabase.from('orders').insert([order]);
+        if (!error) setOrders(prev => [order, ...prev]);
+        else console.error(error);
     };
 
-    const updateOrder = (id: string, updates: Partial<Order>) => {
-        setOrders(prev => prev.map(o => o.id === id ? { ...o, ...updates } : o));
+    const updateOrder = async (id: string, updates: Partial<Order>) => {
+        const { error } = await supabase.from('orders').update(updates).eq('id', id);
+        if (!error) setOrders(prev => prev.map(o => o.id === id ? { ...o, ...updates } : o));
+        else console.error(error);
     };
 
-    const resetStore = () => {
-        setProducts(PRODUCTS as Product[]);
-        setPosts(BLOG_POSTS as BlogPost[]);
-        setOrders([]);
-        localStorage.removeItem('oryizon_products');
-        localStorage.removeItem('oryizon_posts');
-        localStorage.removeItem('oryizon_orders');
+    const resetStore = async () => {
+        // Warning: This deletes everything in the DB!
+        // For safety, maybe standard reset? Or just empty local state for now?
+        // Let's safe-guard it.
+        if (confirm("DANGER: This will wipe the database. Are you sure?")) {
+            await supabase.from('products').delete().neq('id', '0');
+            await supabase.from('posts').delete().neq('id', '0');
+            await supabase.from('orders').delete().neq('id', '0');
+            setProducts([]);
+            setPosts([]);
+            setOrders([]);
+        }
     };
 
-    if (!isLoaded) return null;
+    if (!isLoaded) return null; // Or a loading spinner
 
     return (
         <StoreContext.Provider value={{
