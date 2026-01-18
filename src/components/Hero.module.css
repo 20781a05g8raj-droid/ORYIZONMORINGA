@@ -36,16 +36,24 @@
     color: var(--color-primary);
 }
 
-.overlay {
+/* New Centering Container - Replaces old .overlay positioning */
+.centerContainer {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    text-align: center;
-    pointer-events: none;
+    top: 0;
+    left: 0;
     width: 100%;
-    /* Ensure styles like mix-blend-mode persist if needed, though they might conflict with opacity fade */
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Wrapper for Motion (animates up/down inside the center container) */
+.motionWrapper {
+    text-align: center;
     color: var(--color-text-light);
 }
 

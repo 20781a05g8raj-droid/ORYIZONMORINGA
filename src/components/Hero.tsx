@@ -123,35 +123,38 @@ export default function Hero() {
                 )}
 
                 {/* Floating Overlay Content with Framer Motion */}
-                <motion.div
-                    style={{ y: textY, opacity: textOpacity }}
-                    className={styles.overlay}
-                >
-                    <h1 className={styles.headline}>
-                        <motion.span
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5, duration: 0.8 }}
-                        >
-                            Nature’s Origin.
-                        </motion.span><br />
-                        <motion.span
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.7, duration: 0.8 }}
-                        >
-                            Your New Horizon.
-                        </motion.span><br />
-                        <motion.span
-                            className={styles.brandName}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 1.0, duration: 0.8 }}
-                        >
-                            Oryizon.
-                        </motion.span>
-                    </h1>
-                </motion.div>
+                {/* Fixed container for centering */}
+                <div className={styles.centerContainer}>
+                    <motion.div
+                        style={{ y: textY, opacity: textOpacity }}
+                        className={styles.motionWrapper}
+                    >
+                        <h1 className={styles.headline}>
+                            <motion.span
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.5, duration: 0.8 }}
+                            >
+                                Nature’s Origin.
+                            </motion.span><br />
+                            <motion.span
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.7, duration: 0.8 }}
+                            >
+                                Your New Horizon.
+                            </motion.span><br />
+                            <motion.span
+                                className={styles.brandName}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 1.0, duration: 0.8 }}
+                            >
+                                Oryizon.
+                            </motion.span>
+                        </h1>
+                    </motion.div>
+                </div>
             </div>
         </section>
     );

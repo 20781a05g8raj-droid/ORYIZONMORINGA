@@ -22,11 +22,17 @@ export default function Gallery3D() {
         offset: ['start start', 'end end']
     });
 
+    const headlineY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
+    const headlineOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+
     return (
         <section ref={containerRef} className={styles.gallerySection}>
             <div className={styles.stickyWrapper}>
                 <motion.h2
-                    style={{ opacity: useTransform(scrollYProgress, [0, 0.2], [0, 1]) }}
+                    style={{
+                        y: headlineY,
+                        opacity: headlineOpacity
+                    }}
                     className={styles.headline}
                 >
                     Experience the Future of Vitality
@@ -35,15 +41,6 @@ export default function Gallery3D() {
                 <div className={styles.cardsContainer}>
                     {galleryImages.map((img, i) => {
                         const targetScale = 1 - ((galleryImages.length - 1 - i) * 0.05);
-                        const rangeStart = i * 0.25;
-                        const rangeEnd = 1;
-
-                        // Stacked card effect logic
-                        const scale = useTransform(scrollYProgress, [rangeStart, 1], [1, targetScale]);
-                        const translateY = useTransform(scrollYProgress, [rangeStart, 1], [0, -50 * i]); // Slight overlap
-
-                        // Only scale down if it's not the last one? 
-                        // Actually, let's do a classic "card stack" parallax
 
                         return (
                             <Card
@@ -51,8 +48,9 @@ export default function Gallery3D() {
                                 i={i}
                                 img={img}
                                 progress={scrollYProgress}
-                                range={[i * 0.2, 1]}
+                                range={[i * 0.25, 1]}
                                 targetScale={targetScale}
+                                total={galleryImages.length}
                             />
                         );
                     })}
@@ -62,7 +60,7 @@ export default function Gallery3D() {
     );
 }
 
-const Card = ({ i, img, progress, range, targetScale }: any) => {
+const Card = ({ i, img, progress, range, targetScale, total }: any) => {
     const container = useRef(null);
     const { scrollYProgress } = useScroll({
         target: container,
@@ -71,13 +69,19 @@ const Card = ({ i, img, progress, range, targetScale }: any) => {
 
     const scale = useTransform(progress, range, [1, targetScale]);
 
-    // Rotate slightly based on index and scroll for 3D feel
-    const rotateX = useTransform(progress, [0, 1], [0, 15]);
+    // Improved positioning:
+    // Start significantly lower to clear the fading headline
+    // Use large spacing (80px) to clearly separate the cards into a vertical deck
+    const topOffset = `calc(25vh + ${i * 80}px)`;
 
     return (
         <div ref={container} className={styles.cardContainer}>
             <motion.div
-                style={{ scale, top: `calc(-10% + ${i * 25}px)` }}
+                style={{
+                    scale,
+                    top: topOffset,
+                    zIndex: i
+                }}
                 className={styles.card}
             >
                 <div className={styles.imageWrapper}>
