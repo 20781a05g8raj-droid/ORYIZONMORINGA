@@ -10,15 +10,16 @@ interface ProductCardProps {
     originalPrice?: number;
     rating: number;
     image: string;
+    imageAlt?: string;
 }
 
-export default function ProductCard({ id, title, price, originalPrice, rating, image }: ProductCardProps) {
+export default function ProductCard({ id, title, price, originalPrice, rating, image, imageAlt }: ProductCardProps) {
     const discount = originalPrice ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
 
     return (
         <Link href={`/shop/${id}`} className={styles.card}>
             <div className={styles.imageWrapper}>
-                <img src={image} alt={title} className={styles.image} />
+                <img src={image} alt={imageAlt || title} className={styles.image} />
                 {discount > 0 && <span className={styles.badge}>-{discount}%</span>}
             </div>
             <div className={styles.content}>

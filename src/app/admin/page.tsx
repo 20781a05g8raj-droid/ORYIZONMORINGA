@@ -3,6 +3,7 @@
 import { useAuth } from '@/context/AuthContext';
 import { useStore, Product, BlogPost } from '@/context/StoreContext';
 import styles from './Admin.module.css';
+import ImageUploader from './ImageUploader';
 import { useState, useEffect } from 'react';
 import { redirect } from 'next/navigation';
 
@@ -49,10 +50,16 @@ export default function AdminPage() {
     };
 
     const saveProduct = () => {
+        const productData = {
+            ...editForm,
+            price: parseFloat(editForm.price) || 0,
+            originalPrice: parseFloat(editForm.originalPrice) || 0
+        };
+
         if (isNew) {
-            addProduct(editForm);
+            addProduct(productData);
         } else {
-            updateProduct(editForm.id, editForm);
+            updateProduct(editForm.id, productData);
         }
         setEditingId(null);
     };
@@ -89,7 +96,7 @@ export default function AdminPage() {
         const { name, value } = e.target;
         setEditForm((prev: any) => ({
             ...prev,
-            [name]: (name === 'price' || name === 'originalPrice') ? parseFloat(value) : value
+            [name]: value
         }));
     };
 
@@ -136,13 +143,27 @@ export default function AdminPage() {
                         {(editingId === 'new' && isNew) && (
                             <div className={styles.editCard}>
                                 <h3>New Product</h3>
-                                <ProductForm form={editForm} onChange={handleChange} onArrayChange={handleArrayChange} onSave={saveProduct} onCancel={() => setEditingId(null)} />
+                                <ProductForm
+                                    form={editForm}
+                                    setForm={setEditForm}
+                                    onChange={handleChange}
+                                    onArrayChange={handleArrayChange}
+                                    onSave={saveProduct}
+                                    onCancel={() => setEditingId(null)}
+                                />
                             </div>
                         )}
                         {products.map(p => (
                             <div key={p.id} className={styles.card}>
                                 {editingId === p.id ? (
-                                    <ProductForm form={editForm} onChange={handleChange} onArrayChange={handleArrayChange} onSave={saveProduct} onCancel={() => setEditingId(null)} />
+                                    <ProductForm
+                                        form={editForm}
+                                        setForm={setEditForm}
+                                        onChange={handleChange}
+                                        onArrayChange={handleArrayChange}
+                                        onSave={saveProduct}
+                                        onCancel={() => setEditingId(null)}
+                                    />
                                 ) : (
                                     <>
                                         <div className={styles.info}>
@@ -166,13 +187,13 @@ export default function AdminPage() {
                         {(editingId === 'new' && isNew) && (
                             <div className={styles.editCard}>
                                 <h3>New Post</h3>
-                                <BlogForm form={editForm} onChange={handleChange} onSave={savePost} onCancel={() => setEditingId(null)} />
+                                <BlogForm form={editForm} setForm={setEditForm} onChange={handleChange} onSave={savePost} onCancel={() => setEditingId(null)} />
                             </div>
                         )}
                         {posts.map(p => (
                             <div key={p.id} className={styles.card}>
                                 {editingId === p.id ? (
-                                    <BlogForm form={editForm} onChange={handleChange} onSave={savePost} onCancel={() => setEditingId(null)} />
+                                    <BlogForm form={editForm} setForm={setEditForm} onChange={handleChange} onSave={savePost} onCancel={() => setEditingId(null)} />
                                 ) : (
                                     <>
                                         <div className={styles.info}>
@@ -258,8 +279,42 @@ export default function AdminPage() {
     );
 }
 
-// Sub-components for Forms
-function ProductForm({ form, onChange, onArrayChange, onSave, onCancel }: any) {
+// Sub-components for Form
+function ProductForm({ form, setForm, onChange, onArrayChange, onSave, onCancel }: any) {
+
+    const handleMainUpdate = (url: string, alt: string) => {
+        setForm((prev: any) => ({ ...prev, image: url, imageAlt: alt }));
+    };
+
+    const handleGalleryUpdate = (index: number, url: string, alt: string) => {
+        setForm((prev: any) => {
+            const newImages = [...(prev.images || [])];
+            const newAlts = [...(prev.imagesAlt || [])];
+
+            // Ensure arrays are long enough (fill with empty strings if not)
+            while (newAlts.length < newImages.length) newAlts.push('');
+
+            if (!url) {
+                // Remove if URL is empty (delete action)
+                newImages.splice(index, 1);
+                newAlts.splice(index, 1);
+            } else {
+                newImages[index] = url;
+                newAlts[index] = alt;
+            }
+
+            return { ...prev, images: newImages, imagesAlt: newAlts };
+        });
+    };
+
+    const addGalleryPlaceholder = () => {
+        setForm((prev: any) => ({
+            ...prev,
+            images: [...(prev.images || []), ''],
+            imagesAlt: [...(prev.imagesAlt || []), '']
+        }));
+    };
+
     return (
         <div className={styles.formGrid}>
             <input name="title" value={form.title} onChange={onChange} placeholder="Title" className={styles.input} />
@@ -268,15 +323,35 @@ function ProductForm({ form, onChange, onArrayChange, onSave, onCancel }: any) {
                 <input name="originalPrice" type="number" value={form.originalPrice} onChange={onChange} placeholder="Orig. Price" className={styles.input} />
             </div>
             <textarea name="description" value={form.description} onChange={onChange} placeholder="Description" className={styles.textarea} />
-            <input name="image" value={form.image} onChange={onChange} placeholder="Main Image URL" className={styles.input} />
+            <textarea name="ingredients" value={form.ingredients} onChange={onChange} placeholder="Ingredients" className={styles.textarea} />
 
-            <label className={styles.label}>Gallery Images (Comma separated URLs)</label>
-            <input
-                value={form.images?.join(', ') || ''}
-                onChange={(e) => onArrayChange(e, 'images')}
-                placeholder="url1, url2, url3"
-                className={styles.input}
+            <label className={styles.label}>Main Image</label>
+            <ImageUploader
+                value={form.image}
+                alt={form.imageAlt || ''}
+                onChange={handleMainUpdate}
             />
+
+            <label className={styles.label}>Gallery Images</label>
+            <div className={styles.galleryGrid} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                {(form.images || []).map((img: string, i: number) => (
+                    <ImageUploader
+                        key={i}
+                        value={img}
+                        alt={(form.imagesAlt || [])[i] || ''}
+                        label={`Image ${i + 1}`}
+                        onChange={(url, alt) => handleGalleryUpdate(i, url, alt)}
+                    />
+                ))}
+                {/* Add New Button */}
+                <button
+                    className={styles.uploadBtn}
+                    style={{ height: '100%', minHeight: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f0f0f0', border: '2px dashed #ccc' }}
+                    onClick={addGalleryPlaceholder}
+                >
+                    + Add Another Image
+                </button>
+            </div>
 
             <label className={styles.label}>Benefits (Comma separated)</label>
             <input
@@ -294,7 +369,12 @@ function ProductForm({ form, onChange, onArrayChange, onSave, onCancel }: any) {
     );
 }
 
-function BlogForm({ form, onChange, onSave, onCancel }: any) {
+function BlogForm({ form, setForm, onChange, onSave, onCancel }: any) {
+
+    const handleImageUpdate = (url: string, alt: string) => {
+        setForm((prev: any) => ({ ...prev, image: url, altText: alt }));
+    };
+
     return (
         <div className={styles.formGrid}>
             <input name="title" value={form.title} onChange={onChange} placeholder="Post Title" className={styles.input} />
@@ -303,15 +383,21 @@ function BlogForm({ form, onChange, onSave, onCancel }: any) {
                 <input name="author" value={form.author} onChange={onChange} placeholder="Author" className={styles.input} />
                 <input name="date" value={form.date} onChange={onChange} placeholder="Date" className={styles.input} />
             </div>
-            <textarea name="excerpt" value={form.excerpt} onChange={onChange} placeholder="Short Excerpt" className={styles.textarea} />
-            <textarea name="content" value={form.content} onChange={onChange} placeholder="HTML Content (Keep it simple)" className={styles.textarea} style={{ height: '200px' }} />
 
-            <input name="image" value={form.image} onChange={onChange} placeholder="Featured Image URL" className={styles.input} />
+            <label className={styles.label}>Featured Image</label>
+            <ImageUploader
+                value={form.image}
+                alt={form.altText || ''}
+                onChange={handleImageUpdate}
+            />
+
+            <textarea name="excerpt" value={form.excerpt} onChange={onChange} placeholder="Short Excerpt" className={styles.textarea} />
+            <textarea name="content" value={form.content} onChange={onChange} placeholder="HTML Content (Keep it simple)" className={styles.textarea} style={{ height: '300px' }} />
 
             <h4 className={styles.subHead}>SEO Settings</h4>
-            <input name="seoTitle" value={form.seoTitle || ''} onChange={onChange} placeholder="SEO Title" className={styles.input} />
-            <textarea name="metaDescription" value={form.metaDescription || ''} onChange={onChange} placeholder="Meta Description" className={styles.textarea} />
-            <input name="altText" value={form.altText || ''} onChange={onChange} placeholder="Image Alt Text" className={styles.input} />
+            <input name="seoTitle" value={form.seoTitle || ''} onChange={onChange} placeholder="SEO Title (Browser Title)" className={styles.input} />
+            <textarea name="metaDescription" value={form.metaDescription || ''} onChange={onChange} placeholder="Meta Description (Search Engine Snippet)" className={styles.textarea} />
+            {/* Alt Text is handled by ImageUploader now, but we can keep a fallback input or rely on the uploader */}
 
             <div className={styles.formActions}>
                 <button onClick={onSave} className={styles.saveBtn}>Save Post</button>

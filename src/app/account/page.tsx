@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import styles from './Account.module.css';
 
 export default function AccountPage() {
-    const { user, login, isAuthenticated } = useAuth();
+    const { user, login, logout, isAuthenticated } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -25,6 +25,13 @@ export default function AccountPage() {
                     <div className={styles.group}>
                         <button className={styles.button} onClick={() => window.location.href = '/shop'}>
                             Continue Shopping
+                        </button>
+                        <button
+                            className={styles.button}
+                            style={{ backgroundColor: 'transparent', border: '1px solid currentColor', marginTop: '1rem' }}
+                            onClick={logout}
+                        >
+                            Sign Out
                         </button>
                     </div>
                 </div>

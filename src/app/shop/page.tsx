@@ -24,6 +24,7 @@ export default function ShopPage() {
                         originalPrice={product.originalPrice}
                         rating={product.rating}
                         image={product.image}
+                        imageAlt={product.imageAlt}
                     />
                 ))}
             </section>

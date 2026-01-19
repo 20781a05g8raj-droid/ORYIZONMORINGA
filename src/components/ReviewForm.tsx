@@ -17,7 +17,6 @@ export default function ReviewForm({ onSubmit }: { onSubmit: (data: any) => void
         }
         setError('');
         const reviewData = {
-            id: Date.now().toString(),
             author: name || 'Anonymous User',
             rating,
             date: new Date().toLocaleDateString(),

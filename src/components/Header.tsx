@@ -15,7 +15,7 @@ export default function Header() {
 
     // Add Contexts
     const { cartCount } = useCart();
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -44,6 +44,18 @@ export default function Header() {
                     <a href="/blog" className={styles.link} onClick={() => setIsMenuOpen(false)}>Blog</a>
                     <a href="/story" className={styles.link} onClick={() => setIsMenuOpen(false)}>Our Story</a>
                     <a href="/contact" className={styles.link} onClick={() => setIsMenuOpen(false)}>Contact</a>
+                    {isAuthenticated && (
+                        <button
+                            className={styles.link}
+                            onClick={() => {
+                                logout();
+                                setIsMenuOpen(false);
+                            }}
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', font: 'inherit' }}
+                        >
+                            Logout
+                        </button>
+                    )}
                 </nav>
 
                 <div className={styles.utilities}>

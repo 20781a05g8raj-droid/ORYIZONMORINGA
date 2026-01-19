@@ -1,14 +1,7 @@
 'use client';
 
 import styles from './ReviewList.module.css';
-
-interface Review {
-    id: string;
-    author: string;
-    rating: number;
-    date: string;
-    text: string;
-}
+import { Review } from '@/context/StoreContext';
 
 export default function ReviewList({ reviews }: { reviews: Review[] }) {
     if (reviews.length === 0) {
@@ -17,8 +10,8 @@ export default function ReviewList({ reviews }: { reviews: Review[] }) {
 
     return (
         <div className={styles.container}>
-            {reviews.map((review) => (
-                <div key={review.id} className={styles.review}>
+            {reviews.map((review, index) => (
+                <div key={review.id || index} className={styles.review}>
                     <div className={styles.header}>
                         <span className={styles.author}>{review.author}</span>
                         <div className={styles.rating}>

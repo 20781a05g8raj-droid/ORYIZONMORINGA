@@ -22,6 +22,7 @@ export default function FeaturedProducts() {
                         originalPrice={product.originalPrice}
                         rating={product.rating}
                         image={product.image}
+                        imageAlt={product.imageAlt}
                     />
                 ))}
             </div>

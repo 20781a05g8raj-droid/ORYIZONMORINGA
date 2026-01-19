@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useState } from 'react';
+import { use, useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import { useStore } from '@/context/StoreContext';
 import ReviewList from '@/components/ReviewList';
@@ -9,7 +9,7 @@ import { useCart } from '@/context/CartContext';
 import styles from './ProductDetails.module.css';
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
-    const { products } = useStore();
+    const { products, addReview } = useStore();
     const product = products.find(p => p.id === id);
 
     if (!product) {
@@ -20,11 +20,22 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
     const { addToCart } = useCart();
     const [isAdded, setIsAdded] = useState(false);
+    // Reviews are now coming from the product object itself (which is merged with DB reviews)
     const [reviews, setReviews] = useState(product.reviews || []);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    const handleReviewSubmit = (newReview: any) => {
-        setReviews([newReview, ...reviews]);
+    // Sync reviews when product updates (e.g. after fetch)
+    useEffect(() => {
+        if (product?.reviews) {
+            setReviews(product.reviews);
+        }
+    }, [product]);
+
+    const handleReviewSubmit = async (newReview: any) => {
+        const reviewWithId = { ...newReview, product_id: product.id };
+        await addReview(reviewWithId);
+        // Optimistic update handled by store, but we can also update local if needed
+        // setReviews([reviewWithId, ...reviews]); 
     };
 
     const handleAddToCart = () => {

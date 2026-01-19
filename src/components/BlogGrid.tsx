@@ -42,7 +42,7 @@ export default function BlogGrid() {
                         ref={el => { if (el) cardsRef.current[index] = el; }}
                     >
                         <div className={styles.imageWrapper}>
-                            <img src={post.image} alt={post.title} className={styles.image} />
+                            <img src={post.image} alt={post.altText || post.title} className={styles.image} />
                         </div>
                         <div className={styles.content}>
                             <h3 className={styles.title}>{post.title}</h3>

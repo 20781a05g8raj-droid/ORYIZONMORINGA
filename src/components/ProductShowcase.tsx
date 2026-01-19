@@ -57,7 +57,7 @@ export default function ProductShowcase() {
                 <img
                     ref={imageRef}
                     src="/product.png"
-                    alt="Oryizon Organic Moringa Powder"
+                    alt="Oryizon Organic Moringa Powder - Premium Superfood"
                     className={styles.productImage}
                 />
 
