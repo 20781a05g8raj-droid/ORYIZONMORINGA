@@ -55,7 +55,7 @@ export default function Footer() {
                 </div>
 
                 <div className={styles.bottom}>
-                    <p>&copy; {new Date().getFullYear()} Oryizon Wellness. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} Oryizon Wellness. All rights reserved. <span style={{ opacity: 0.5, fontSize: '0.8rem' }}>v0.1.1</span></p>
                     <div className={styles.legal}>
                         <a href="#">Privacy Policy</a>
                         <a href="#">Terms of Service</a>
