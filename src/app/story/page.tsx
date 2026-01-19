@@ -15,7 +15,7 @@ export default function StoryPage() {
                     </p>
                 </div>
                 <img
-                    src="https://placehold.co/1920x1080/1B3022/FFFFFF?text=Nature%27s+Landscape"
+                    src="/images/natures-landscape.jpg"
                     alt="Abstract Nature"
                     className={styles.bgImage}
                 />
@@ -35,7 +35,7 @@ export default function StoryPage() {
                     </div>
                     <div className={styles.imageBlock}>
                         <img
-                            src="https://placehold.co/800x1000/C5A059/FFFFFF?text=Moringa+Leaves"
+                            src="/images/moringa-leaves.jpg"
                             alt="Moringa Leaves"
                         />
                     </div>
@@ -65,7 +65,7 @@ export default function StoryPage() {
                 <div className={styles.grid}>
                     <div className={styles.imageBlock}>
                         <img
-                            src="https://placehold.co/800x1000/1B3022/FFFFFF?text=Modern+Wellness"
+                            src="/images/modern-wellness.jpg"
                             alt="Wellness Routine"
                         />
                     </div>

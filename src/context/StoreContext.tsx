@@ -4,6 +4,14 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
 // Define Types
+export type ContactMessage = {
+    id?: string;
+    name: string;
+    email: string;
+    message: string;
+    date: string;
+};
+
 export type Review = {
     id?: string;
     product_id: string;
@@ -64,6 +72,7 @@ type StoreContextType = {
     products: Product[];
     posts: BlogPost[];
     orders: Order[];
+    messages: ContactMessage[];
 
     addProduct: (product: Product) => Promise<void>;
     updateProduct: (id: string, updates: Partial<Product>) => Promise<void>;
@@ -78,6 +87,8 @@ type StoreContextType = {
     updateOrder: (id: string, updates: Partial<Order>) => Promise<void>;
 
     addReview: (review: Review) => Promise<void>;
+    addMessage: (msg: ContactMessage) => Promise<void>;
+
     resetStore: () => void;
 };
 
@@ -87,6 +98,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     const [products, setProducts] = useState<Product[]>([]);
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
+    const [messages, setMessages] = useState<ContactMessage[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
     const fetchData = async () => {
@@ -111,6 +123,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
             const { data: orderData } = await supabase.from('orders').select('*');
             if (orderData) setOrders(orderData);
+
+            const { data: msgData } = await supabase.from('messages').select('*');
+            if (msgData) setMessages(msgData);
 
             setIsLoaded(true);
         } catch (error) {
@@ -217,15 +232,24 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         else console.error(error);
     };
 
+    // --- Message Actions ---
+    const addMessage = async (msg: ContactMessage) => {
+        const { error } = await supabase.from('messages').insert([msg]);
+        if (!error) setMessages(prev => [msg, ...prev]);
+        else console.error(error);
+    };
+
     const resetStore = async () => {
         if (confirm("DANGER: This will wipe the database. Are you sure?")) {
             await supabase.from('products').delete().neq('id', '0');
             await supabase.from('posts').delete().neq('id', '0');
             await supabase.from('orders').delete().neq('id', '0');
             await supabase.from('reviews').delete().neq('id', '0');
+            await supabase.from('messages').delete().neq('id', '0');
             setProducts([]);
             setPosts([]);
             setOrders([]);
+            setMessages([]);
         }
     };
 
@@ -233,12 +257,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
     return (
         <StoreContext.Provider value={{
-            products, posts, orders,
+            products, posts, orders, messages,
             addProduct, updateProduct, deleteProduct,
             addPost, updatePost, deletePost,
             addOrder, updateOrder,
             uploadImage,
             addReview,
+            addMessage,
             resetStore
         }}>
             {children}

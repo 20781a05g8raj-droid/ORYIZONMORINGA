@@ -9,10 +9,10 @@ import { redirect } from 'next/navigation';
 
 export default function AdminPage() {
     const { user, isAdmin, isAuthenticated } = useAuth();
-    const { products, addProduct, updateProduct, deleteProduct, posts, addPost, updatePost, deletePost, orders, updateOrder, resetStore } = useStore();
+    const { products, addProduct, updateProduct, deleteProduct, posts, addPost, updatePost, deletePost, orders, updateOrder, messages, resetStore } = useStore();
 
     // State
-    const [activeTab, setActiveTab] = useState<'products' | 'blog' | 'orders'>('products');
+    const [activeTab, setActiveTab] = useState<'products' | 'blog' | 'orders' | 'messages'>('products');
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editForm, setEditForm] = useState<any>({});
     const [isNew, setIsNew] = useState(false);
@@ -123,14 +123,15 @@ export default function AdminPage() {
                     <button className={`${styles.tabBtn} ${activeTab === 'products' ? styles.active : ''}`} onClick={() => { setActiveTab('products'); setEditingId(null); }}>Products</button>
                     <button className={`${styles.tabBtn} ${activeTab === 'blog' ? styles.active : ''}`} onClick={() => { setActiveTab('blog'); setEditingId(null); }}>Blog</button>
                     <button className={`${styles.tabBtn} ${activeTab === 'orders' ? styles.active : ''}`} onClick={() => { setActiveTab('orders'); setEditingId(null); }}>Orders</button>
+                    <button className={`${styles.tabBtn} ${activeTab === 'messages' ? styles.active : ''}`} onClick={() => { setActiveTab('messages'); setEditingId(null); }}>Messages</button>
                     <button className={styles.resetBtn} onClick={resetStore}>Reset All Data</button>
                 </div>
             </div>
 
             <section className={styles.section}>
                 <div className={styles.sectionHeader}>
-                    <h2 className={styles.sectionTitle}>{activeTab === 'products' ? 'Manage Products' : activeTab === 'blog' ? 'Manage Blog Posts' : 'Manage Orders'}</h2>
-                    {activeTab !== 'orders' && (
+                    <h2 className={styles.sectionTitle}>{activeTab === 'products' ? 'Manage Products' : activeTab === 'blog' ? 'Manage Blog Posts' : activeTab === 'orders' ? 'Manage Orders' : 'Messages'}</h2>
+                    {activeTab !== 'orders' && activeTab !== 'messages' && (
                         <button className={styles.createBtn} onClick={activeTab === 'products' ? startNewProduct : startNewPost}>
                             + Add New {activeTab === 'products' ? 'Product' : 'Post'}
                         </button>
@@ -270,6 +271,25 @@ export default function AdminPage() {
                                         />
                                     </div>
                                 </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* --- MESSAGES TAB --- */}
+                {activeTab === 'messages' && (
+                    <div className={styles.list}>
+                        {(messages || []).length === 0 && <p style={{ textAlign: 'center', color: '#666' }}>No messages received yet.</p>}
+                        {(messages || []).map((msg: any) => (
+                            <div key={msg.id} className={styles.card} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', paddingBottom: '0.5rem' }}>
+                                    <h4 style={{ margin: 0 }}>{msg.name}</h4>
+                                    <span style={{ fontSize: '0.85rem', color: '#888' }}>{msg.date}</span>
+                                </div>
+                                <a href={`mailto:${msg.email}`} style={{ color: '#2ecc71', fontSize: '0.9rem', textDecoration: 'none' }}>{msg.email}</a>
+                                <p style={{ background: '#f9f9f9', padding: '1rem', borderRadius: '4px', marginTop: '0.5rem', fontSize: '0.95rem', lineHeight: '1.5' }}>
+                                    {msg.message}
+                                </p>
                             </div>
                         ))}
                     </div>
