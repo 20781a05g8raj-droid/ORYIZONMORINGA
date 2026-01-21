@@ -51,7 +51,7 @@ export default function ProductShowcase() {
 
     return (
         <section className={styles.showcase} ref={containerRef}>
-            <h2 className={styles.title}>Oryizon Gold. <span className={styles.subtitle}>Pure Potency.</span></h2>
+            <h2 className={styles.title}>The Best Organic Moringa Powder. <span className={styles.subtitle}>Pure Potency.</span></h2>
 
             <div className={styles.productContainer}>
                 <img
@@ -64,12 +64,12 @@ export default function ProductShowcase() {
                 {/* Hotspots Example */}
                 <div className={styles.hotspot} style={{ top: '30%', left: '40%' }}>
                     <div className={styles.dot}></div>
-                    <div className={styles.tooltip}>100% Organic</div>
+                    <div className={styles.tooltip}>Moringa Powder Benefits</div>
                 </div>
 
                 <div className={styles.hotspot} style={{ top: '60%', right: '35%' }}>
                     <div className={styles.dot}></div>
-                    <div className={styles.tooltip}>Rich in Antioxidants</div>
+                    <div className={styles.tooltip}>Support Weight Loss</div>
                 </div>
             </div>
         </section>

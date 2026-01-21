@@ -11,7 +11,7 @@ export default function FeaturedProducts() {
 
     return (
         <section className={styles.section}>
-            <h2 className={styles.heading}>Explore Our Collection</h2>
+            <h2 className={styles.heading}>Shop Organic Moringa Powder</h2>
             <div className={styles.grid}>
                 {featured.map(product => (
                     <ProductCard

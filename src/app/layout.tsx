@@ -22,8 +22,9 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Oryizon | Nature's Origin, Your New Horizon",
-  description: "Experience the purity of Premium Organic Moringa with Oryizon.",
+  title: "Oryizon | Best Organic Moringa Powder for Weight Loss & Vitality",
+  description: "Discover Oryizon's premium organic moringa powder. Packed with nature's goodness, our best moringa powder supports weight loss, boosts energy, and promotes overall wellness. Learn how to use moringa powder today.",
+  keywords: ["moringa powder benefits", "organic moringa powder", "moringa powder for weight loss", "best moringa powder", "how to use moringa powder"],
 };
 
 export default function RootLayout({

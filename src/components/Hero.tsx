@@ -142,7 +142,8 @@ export default function Hero() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.7, duration: 0.8 }}
                             >
-                                Your New Horizon.
+                                Your New Horizon.<br />
+                                <span style={{ fontSize: '0.6em', opacity: 0.9 }}>The Best Organic Moringa Powder</span>
                             </motion.span><br />
                             <motion.span
                                 className={styles.brandName}

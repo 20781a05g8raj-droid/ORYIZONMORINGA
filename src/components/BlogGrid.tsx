@@ -33,7 +33,7 @@ export default function BlogGrid() {
 
     return (
         <section className={styles.blogSection} ref={containerRef}>
-            <h2 className={styles.heading}>The Blog.</h2>
+            <h2 className={styles.heading}>Discover Moringa Powder Benefits.</h2>
             <div className={styles.grid}>
                 {posts.map((post, index) => (
                     <article
