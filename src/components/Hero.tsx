@@ -23,9 +23,9 @@ export default function Hero() {
 
         for (let i = 1; i <= FRAME_COUNT; i++) {
             const img = new Image();
-            // Format: ezgif-frame-001.jpg, etc.
-            const filename = `ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            img.src = `/sequence/${filename}`;
+            // Format: 1.webp, 2.webp, etc.
+            const filename = `${i}.webp`;
+            img.src = `/img/${filename}`;
             img.onload = () => {
                 loadedCount++;
                 if (loadedCount === FRAME_COUNT) {
