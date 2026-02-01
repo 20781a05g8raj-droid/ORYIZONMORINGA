@@ -1,34 +1,47 @@
 :root {
-  /* Luxury Color Palette */
+  /* Nanobana Luxury Palette */
   --color-primary: #0A3D2C;
-  /* Rich Emerald Green */
-  --color-secondary: #D4AF37;
-  /* Champagne Gold */
-  --color-accent: #B76E79;
-  /* Soft Rose Gold */
+  /* Deep Moringa Green */
+  --color-primary-light: #145C45;
+  --color-secondary: #F4D03F;
+  /* Nanobana Flower Gold */
+  --color-secondary-dark: #D4AF37;
+  --color-accent: #E67E22;
+  /* Warm Amber Accent */
+
+  /* Backgrounds */
   --color-background: #FDFCF9;
   /* Soft Cream */
-  --color-background-alt: #F5F2ED;
+  --color-background-alt: #F4F1EA;
   /* Warm Beige */
-  --color-text: #2C2C2C;
-  /* Deep Charcoal */
-  --color-text-light: #FDFCF9;
-  /* Cream for dark backgrounds */
+  --color-surface: #FFFFFF;
 
-  /* Gradient Utilities */
-  --gradient-primary: linear-gradient(135deg, #0A3D2C 0%, #0F5C41 100%);
-  --gradient-secondary: linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%);
-  --gradient-ambient: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  /* Text */
+  --color-text: #1A1A1A;
+  /* Almost Black */
+  --color-text-light: #FDFCF9;
+  /* Cream */
+  --color-text-muted: #666666;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #0A3D2C 0%, #1A5E48 100%);
+  --gradient-luxury: linear-gradient(135deg, #F4D03F 0%, #D4AF37 100%);
+  --gradient-glass: linear-gradient(145deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%);
 
   /* Layout */
   --max-width: 1400px;
   --header-height: 80px;
 
-  /* Shadow System */
-  --shadow-sm: 0 2px 8px rgba(10, 61, 44, 0.08);
-  --shadow-md: 0 4px 16px rgba(10, 61, 44, 0.12);
-  --shadow-lg: 0 8px 32px rgba(10, 61, 44, 0.16);
-  --shadow-luxury: 0 12px 48px rgba(212, 175, 55, 0.15), 0 4px 16px rgba(10, 61, 44, 0.1);
+  /* Fonts */
+  --font-serif: var(--font-playfair-display), serif;
+  /* Ensure these are loaded in layout.tsx if not already */
+  --font-sans: var(--font-inter), sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 15px -3px rgba(10, 61, 44, 0.08);
+  --shadow-lg: 0 20px 25px -5px rgba(10, 61, 44, 0.1);
+  --shadow-luxury: 0 25px 50px -12px rgba(212, 175, 55, 0.25);
 }
 
 * {
@@ -41,20 +54,44 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background: linear-gradient(to bottom, var(--color-background) 0%, var(--color-background-alt) 100%);
+  background-color: var(--color-background);
   color: var(--color-text);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-md);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-luxury);
 }
 
 a {
   color: inherit;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 a:hover {
-  color: var(--color-secondary);
+  color: var(--color-secondary-dark);
 }
 
 img {
@@ -69,23 +106,18 @@ h4,
 h5,
 h6 {
   font-family: var(--font-serif);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
   color: var(--color-primary);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  line-height: 1.2;
 }
 
 p {
-  font-family: var(--font-sans);
-  line-height: 1.618;
-  /* Golden ratio */
-  letter-spacing: 0.01em;
+  line-height: 1.6;
+  color: var(--color-text);
 }
 
-/* Luxury scrollbar */
+/* Luxury Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -93,10 +125,10 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gradient-secondary);
-  border-radius: 5px;
+  background: var(--color-primary-light);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-secondary);
+  background: var(--color-primary);
 }

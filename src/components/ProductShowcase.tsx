@@ -54,9 +54,10 @@ export default function ProductShowcase() {
             <h2 className={styles.title}>The Best Organic Moringa Powder. <span className={styles.subtitle}>Pure Potency.</span></h2>
 
             <div className={styles.productContainer}>
+                <div className={styles.glassBackdrop}></div>
                 <img
                     ref={imageRef}
-                    src="/product.png"
+                    src="/product-mockup.png"
                     alt="Oryizon Organic Moringa Powder - Premium Superfood"
                     className={styles.productImage}
                 />
