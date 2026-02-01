@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -17,7 +18,8 @@ export default function Hero() {
 
         // Parallax Effect for Background
         gsap.to(bgRef.current, {
-            yPercent: 20, // Move image down as we scroll down
+            yPercent: 0, // Disabled vertical movement to stop cropping
+            scale: 1.1, // Slight zoom for effect instead
             ease: "none",
             scrollTrigger: {
                 trigger: containerRef.current,
@@ -48,7 +50,7 @@ export default function Hero() {
             {/* Parallax Background Image */}
             <img
                 ref={bgRef}
-                src="/hero-bg.png"
+                src="/hero-home-v2.png"
                 alt="Lush Organic Moringa Farm with Nanobana Flowers"
                 className={styles.parallaxBg}
             />
@@ -66,11 +68,11 @@ export default function Hero() {
                     <p style={{ fontSize: '1.2rem', margin: '1rem 0 2rem', opacity: 0.9 }}>
                         The purest organic moringa powder, cultivated in harmony with nature.
                     </p>
-                    <a href="#shop" className={styles.ctaButton}>
+                    <Link href="/shop" className={styles.ctaButton}>
                         Discover Pure Potency
-                    </a>
+                    </Link>
                 </div>
             </div>
-        </section>
+        </section >
     );
 }

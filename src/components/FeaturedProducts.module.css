@@ -1,6 +1,6 @@
 .section {
     padding: 6rem 2rem;
-    background-color: #ffffff;
+    background-color: transparent;
     color: var(--color-primary);
 }
 

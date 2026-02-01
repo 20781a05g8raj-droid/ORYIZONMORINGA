@@ -1,3 +1,4 @@
+// ProductShowcase.tsx
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -6,71 +7,64 @@ import styles from './ProductShowcase.module.css';
 
 export default function ProductShowcase() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const imageRef = useRef<HTMLImageElement>(null);
+    const poster1Ref = useRef<HTMLImageElement>(null);
+    const poster2Ref = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
-        if (!imageRef.current) return;
-
-        // Antigravity "Bobbing" Animation
-        gsap.to(imageRef.current, {
-            y: -20,
-            duration: 3,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-
-        // Parallax Tilt Effect on Mouse Move
-        const handleMouseMove = (e: MouseEvent) => {
-            if (!containerRef.current || !imageRef.current) return;
-
-            const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-            const x = (e.clientX - left) / width - 0.5;
-            const y = (e.clientY - top) / height - 0.5;
-
-            gsap.to(imageRef.current, {
-                rotationY: x * 20, // Tilt Intensity
-                rotationX: -y * 20,
-                transformPerspective: 1000,
-                ease: "power1.out",
-                duration: 0.5
-            });
-        };
-
         const container = containerRef.current;
-        if (container) {
-            container.addEventListener('mousemove', handleMouseMove);
-        }
+        if (!container) return; // Guard clause
 
-        return () => {
-            if (container) {
-                container.removeEventListener('mousemove', handleMouseMove);
-            }
-        };
+        // Simple Floating Animation for Posters
+        if (poster1Ref.current) {
+            gsap.to(poster1Ref.current, {
+                y: -15,
+                duration: 2.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+        if (poster2Ref.current) {
+            gsap.to(poster2Ref.current, {
+                y: -15,
+                duration: 3, // Different duration for organic feel
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: 0.5
+            });
+        }
     }, []);
 
     return (
         <section className={styles.showcase} ref={containerRef}>
-            <h2 className={styles.title}>The Best Organic Moringa Powder. <span className={styles.subtitle}>Pure Potency.</span></h2>
+            <h2 className={styles.title}>Nature's Best Kept Secret. <span className={styles.subtitle}>Unlock Your Potential.</span></h2>
 
-            <div className={styles.productContainer}>
-                <div className={styles.glassBackdrop}></div>
-                <img
-                    ref={imageRef}
-                    src="/product-mockup.png"
-                    alt="Oryizon Organic Moringa Powder - Premium Superfood"
-                    className={styles.productImage}
-                />
-
-                {/* Hotspots Example */}
-                <div className={styles.hotspot} style={{ top: '30%', left: '40%' }}>
-                    <div className={styles.dot}></div>
-                    <div className={styles.tooltip}>Moringa Powder Benefits</div>
+            <div className={styles.gridContainer}>
+                {/* Poster 1: Organic */}
+                <div className={styles.posterWrapper}>
+                    <img
+                        ref={poster1Ref}
+                        src="/showcase-organic.png"
+                        alt="100% Organic Moringa - Premium Quality"
+                        className={styles.posterImage}
+                    />
+                    <div className={styles.posterOverlay}>
+                        <span className={styles.badge}>100% Organic</span>
+                    </div>
                 </div>
 
-                <div className={styles.hotspot} style={{ top: '60%', right: '35%' }}>
-                    <div className={styles.dot}></div>
-                    <div className={styles.tooltip}>Support Weight Loss</div>
+                {/* Poster 2: Energy */}
+                <div className={styles.posterWrapper}>
+                    <img
+                        ref={poster2Ref}
+                        src="/showcase-energy.png"
+                        alt="Energy Boost with Moringa Smoothie"
+                        className={styles.posterImage}
+                    />
+                    <div className={styles.posterOverlay}>
+                        <span className={styles.badge}>Boost Energy</span>
+                    </div>
                 </div>
             </div>
         </section>

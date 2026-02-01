@@ -1,13 +1,13 @@
 .container {
     padding-top: var(--header-height);
     min-height: 100vh;
-    background: #f4f4f4;
+    background: var(--color-background);
     padding-bottom: 4rem;
-    color: var(--color-primary);
+    color: var(--color-text);
 }
 
 .header {
-    background: white;
+    background: var(--color-background-alt);
     padding: 1.5rem 2rem;
     margin-bottom: 2rem;
     display: flex;
@@ -24,11 +24,11 @@
 .tabBtn {
     padding: 0.5rem 1.5rem;
     background: transparent;
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--color-text);
     border-radius: 4px;
     cursor: pointer;
     font-weight: 600;
-    color: var(--color-primary);
+    color: var(--color-text);
     transition: all 0.2s;
 }
 
@@ -91,10 +91,11 @@
 
 .card,
 .editCard {
-    background: white;
+    background: var(--color-background-alt);
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: var(--color-text);
 }
 
 .editCard {
@@ -160,10 +161,12 @@
 .textarea {
     width: 100%;
     padding: 0.6rem;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 4px;
     font-family: inherit;
     font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
 }
 
 .textarea {
@@ -185,7 +188,7 @@
     font-weight: 600;
     margin-bottom: -0.5rem;
     margin-top: 0.5rem;
-    color: #555;
+    color: var(--color-text-muted);
     display: block;
 }
 
@@ -210,11 +213,12 @@
 }
 
 .dropZone {
-    border: 2px dashed #ccc;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     padding: 1.5rem;
     text-align: center;
-    background: #fafafa;
+    background: rgba(255, 255, 255, 0.05);
+    /* Subtle dark theme overlay */
     transition: all 0.2s;
     position: relative;
     cursor: pointer;

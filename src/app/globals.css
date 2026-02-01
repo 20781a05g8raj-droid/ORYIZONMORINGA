@@ -10,18 +10,19 @@
   /* Warm Amber Accent */
 
   /* Backgrounds */
-  --color-background: #FDFCF9;
-  /* Soft Cream */
-  --color-background-alt: #F4F1EA;
-  /* Warm Beige */
-  --color-surface: #FFFFFF;
+  --color-background: #5F7146;
+  /* Moringa Powder Green */
+  --color-background-alt: #4E5D3A;
+  /* Darker Green shade */
+  --color-surface: rgba(255, 255, 255, 0.1);
 
   /* Text */
-  --color-text: #1A1A1A;
-  /* Almost Black */
-  --color-text-light: #FDFCF9;
-  /* Cream */
-  --color-text-muted: #666666;
+  --color-text: #FDFCF9;
+  /* Cream text for contrast */
+  --color-text-light: #FFFFFF;
+  /* Pure white */
+  --color-text-muted: #E0E0E0;
+  /* Light gray */
 
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, #0A3D2C 0%, #1A5E48 100%);
@@ -63,18 +64,20 @@ body {
 
 /* Glassmorphism Utilities */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  /* Subtle white overlay */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: var(--shadow-md);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+  /* Slightly stronger overlay */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: var(--shadow-lg);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -106,13 +109,15 @@ h4,
 h5,
 h6 {
   font-family: var(--font-serif);
-  color: var(--color-primary);
+  color: #FFFFFF;
+  /* White headings on green */
   line-height: 1.2;
 }
 
 p {
   line-height: 1.6;
   color: var(--color-text);
+  /* Cream/White */
 }
 
 /* Luxury Scrollbar */

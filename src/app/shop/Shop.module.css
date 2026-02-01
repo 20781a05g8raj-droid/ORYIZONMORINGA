@@ -1,5 +1,4 @@
 .container {
-    padding-top: var(--header-height);
     min-height: 100vh;
     background-color: var(--color-background);
 }

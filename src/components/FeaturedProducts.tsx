@@ -3,6 +3,7 @@
 import ProductCard from './ProductCard';
 import { useStore } from '@/context/StoreContext';
 import styles from './FeaturedProducts.module.css';
+import Link from 'next/link';
 
 export default function FeaturedProducts() {
     const { products } = useStore();
@@ -27,7 +28,7 @@ export default function FeaturedProducts() {
                 ))}
             </div>
             <div className={styles.viewAll}>
-                <a href="/shop" className={styles.button}>View All Products</a>
+                <Link href="/shop" className={styles.button}>View All Products</Link>
             </div>
         </section>
     );

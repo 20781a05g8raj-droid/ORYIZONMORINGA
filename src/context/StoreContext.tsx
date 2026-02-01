@@ -253,7 +253,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    if (!isLoaded) return null;
+    // if (!isLoaded) return null; // Removed blocking loader to allow UI to show immediately
 
     return (
         <StoreContext.Provider value={{

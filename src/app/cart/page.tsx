@@ -4,7 +4,7 @@ import { useCart } from '@/context/CartContext';
 import styles from './Cart.module.css';
 
 export default function CartPage() {
-    const { items, removeFromCart, cartTotal, clearCart } = useCart();
+    const { items, removeFromCart, updateQuantity, cartTotal, clearCart } = useCart();
 
     if (items.length === 0) {
         return (
@@ -30,7 +30,18 @@ export default function CartPage() {
                             <div className={styles.itemInfo}>
                                 <h3 className={styles.itemTitle}>{item.title}</h3>
                                 <p className={styles.itemPrice}>₹{item.price.toFixed(2)}</p>
-                                <span className={styles.quantity}>Qty: {item.quantity}</span>
+                                <div className={styles.quantityControls}>
+                                    <button
+                                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                        className={styles.qtyBtn}
+                                        disabled={item.quantity <= 1}
+                                    >-</button>
+                                    <span className={styles.quantity}>{item.quantity}</span>
+                                    <button
+                                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                        className={styles.qtyBtn}
+                                    >+</button>
+                                </div>
                             </div>
                             <button
                                 onClick={() => removeFromCart(item.id)}

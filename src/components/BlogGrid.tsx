@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useStore } from '@/context/StoreContext';
+import Link from 'next/link';
 import styles from './BlogGrid.module.css';
 
 export default function BlogGrid() {
@@ -47,7 +48,7 @@ export default function BlogGrid() {
                         <div className={styles.content}>
                             <h3 className={styles.title}>{post.title}</h3>
                             <p className={styles.excerpt}>{post.excerpt}</p>
-                            <a href={`/blog/${post.id}`} className={styles.link}>Read Story &rarr;</a>
+                            <Link href={`/blog/${post.id}`} className={styles.link}>Read Story &rarr;</Link>
                         </div>
                     </article>
                 ))}

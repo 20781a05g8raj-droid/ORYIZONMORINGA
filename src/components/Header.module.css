@@ -111,11 +111,12 @@
     top: -5px;
     right: -5px;
     background: var(--gradient-secondary);
-    color: var(--color-primary);
+    color: #000000;
+    /* Force black text for visibility on gold */
     border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
     display: flex;
     align-items: center;
     justify-content: center;

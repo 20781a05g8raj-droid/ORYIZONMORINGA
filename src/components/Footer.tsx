@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -12,7 +13,7 @@ export default function Footer() {
                         <h3 className={styles.brand}>Oryizon</h3>
                         <p className={styles.tagline}>Nature’s Origin. Your New Horizon.</p>
                         <div className={styles.socials}>
-                            <a href="#" aria-label="Instagram">Instagram</a>
+                            <a href="https://www.instagram.com/oryizon?igsh=dW9mMWF3dHE5NDBl" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
                             <a href="#" aria-label="Twitter">Twitter</a>
                             <a href="#" aria-label="LinkedIn">LinkedIn</a>
                         </div>
@@ -22,10 +23,10 @@ export default function Footer() {
                     <div className={styles.column}>
                         <h4 className={styles.heading}>Explore</h4>
                         <ul className={styles.links}>
-                            <li><a href="/shop">Shop Oryizon</a></li>
-                            <li><a href="/story">Our Story</a></li>
-                            <li><a href="/blog">The Blog</a></li>
-                            <li><a href="#">Sustainability</a></li>
+                            <li><Link href="/shop">Shop Oryizon</Link></li>
+                            <li><Link href="/story">Our Story</Link></li>
+                            <li><Link href="/blog">The Blog</Link></li>
+                            <li><Link href="#">Sustainability</Link></li>
                         </ul>
                     </div>
 
@@ -33,8 +34,8 @@ export default function Footer() {
                     <div className={styles.column}>
                         <h4 className={styles.heading}>Contact</h4>
                         <ul className={styles.links}>
-                            <li><a href="/contact">Contact Us</a></li>
-                            <li><a href="/track">Track Order</a></li>
+                            <li><Link href="/contact">Contact Us</Link></li>
+                            <li><Link href="/track">Track Order</Link></li>
                             <li style={{ color: 'var(--color-text-light)', opacity: 0.8, fontSize: '0.9rem', lineHeight: '1.6' }}>
                                 Raxaul, Hariya, India
                             </li>
@@ -57,8 +58,8 @@ export default function Footer() {
                 <div className={styles.bottom}>
                     <p>&copy; {new Date().getFullYear()} Oryizon Wellness. All rights reserved. <span style={{ opacity: 0.5, fontSize: '0.8rem' }}>v0.1.1</span></p>
                     <div className={styles.legal}>
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Terms of Service</a>
+                        <Link href="#">Privacy Policy</Link>
+                        <Link href="#">Terms of Service</Link>
                     </div>
                 </div>
             </div>
