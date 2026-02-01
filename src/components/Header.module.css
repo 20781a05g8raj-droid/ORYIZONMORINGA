@@ -15,11 +15,13 @@
 }
 
 .scrolled {
-    background: rgba(27, 48, 34, 0.95);
-    color: #F9F7F2 !important;
-    backdrop-filter: blur(12px);
+    background: rgba(10, 61, 44, 0.85);
+    color: #FDFCF9 !important;
+    backdrop-filter: blur(20px) saturate(180%);
     padding: 1rem 0;
-    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    border-bottom: 2px solid transparent;
+    border-image: var(--gradient-secondary) 1;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 }
 
 .container {
@@ -35,12 +37,15 @@
     font-family: var(--font-serif);
     font-size: 1.8rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    color: inherit;
+    letter-spacing: 0.05em;
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-transform: uppercase;
     position: relative;
     z-index: 1002;
-    /* Above mobile menu */
+    filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
 }
 
 /* Navigation */
@@ -71,8 +76,9 @@
     left: 0;
     width: 0;
     height: 2px;
-    background-color: var(--color-secondary);
-    transition: width 0.3s ease;
+    background: var(--gradient-secondary);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
 }
 
 .link:hover::after {
@@ -104,16 +110,17 @@
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: var(--color-secondary);
+    background: var(--gradient-secondary);
     color: var(--color-primary);
     border-radius: 50%;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     font-size: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
 }
 
 /* Hamburger Menu */

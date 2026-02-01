@@ -8,32 +8,67 @@ import styles from './Hero.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FRAME_COUNT = 240;
+// Reduced frame count for better performance (using every other frame)
+const FRAME_COUNT = 120;
+const PRELOAD_COUNT = 10; // Load first 10 frames immediately
 
 export default function Hero() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [imagesLoaded, setImagesLoaded] = useState(false);
+    const [loadingProgress, setLoadingProgress] = useState(0);
     const imagesRef = useRef<HTMLImageElement[]>([]);
 
-    // Preload images
+    // Progressive loading: preload first few frames, then lazy load rest
     useEffect(() => {
-        let loadedCount = 0;
-        const images: HTMLImageElement[] = [];
+        const images: HTMLImageElement[] = new Array(FRAME_COUNT);
+        let priorityLoaded = 0;
+        let totalLoaded = 0;
 
-        for (let i = 1; i <= FRAME_COUNT; i++) {
+        // Load priority frames first (first 10)
+        for (let i = 0; i < PRELOAD_COUNT; i++) {
             const img = new Image();
-            // Format: 1.webp, 2.webp, etc.
-            const filename = `${i}.webp`;
-            img.src = `/img/${filename}`;
+            // Load every other frame from original sequence (1, 3, 5, 7...)
+            const frameNumber = (i * 2) + 1;
+            img.src = `/img/${frameNumber}.webp`;
             img.onload = () => {
-                loadedCount++;
-                if (loadedCount === FRAME_COUNT) {
-                    setImagesLoaded(true);
+                priorityLoaded++;
+                totalLoaded++;
+                setLoadingProgress(Math.round((totalLoaded / FRAME_COUNT) * 100));
+                if (priorityLoaded === PRELOAD_COUNT) {
+                    setImagesLoaded(true); // Ready for interaction
+                    // Load remaining frames in background
+                    loadRemainingFrames();
                 }
             };
-            images.push(img);
+            images[i] = img;
         }
+
+        // Lazy load remaining frames in background
+        const loadRemainingFrames = () => {
+            const loadFrame = (index: number) => {
+                if (index >= FRAME_COUNT) return;
+
+                const img = new Image();
+                const frameNumber = (index * 2) + 1;
+                img.src = `/img/${frameNumber}.webp`;
+                img.onload = () => {
+                    totalLoaded++;
+                    setLoadingProgress(Math.round((totalLoaded / FRAME_COUNT) * 100));
+                    // Load next frame
+                    if ('requestIdleCallback' in window) {
+                        requestIdleCallback(() => loadFrame(index + 1));
+                    } else {
+                        setTimeout(() => loadFrame(index + 1), 10);
+                    }
+                };
+                images[index] = img;
+            };
+
+            // Start loading from frame 10 onwards
+            loadFrame(PRELOAD_COUNT);
+        };
+
         imagesRef.current = images;
     }, []);
 
@@ -118,7 +153,16 @@ export default function Hero() {
 
                 {!imagesLoaded && (
                     <div className={styles.loader}>
-                        <h2>Loading Experience...</h2>
+                        <div className={styles.loaderContent}>
+                            <h2>Loading Experience...</h2>
+                            <div className={styles.progressBar}>
+                                <div
+                                    className={styles.progressFill}
+                                    style={{ width: `${loadingProgress}%` }}
+                                />
+                            </div>
+                            <p className={styles.progressText}>{loadingProgress}%</p>
+                        </div>
                     </div>
                 )}
 

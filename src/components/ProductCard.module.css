@@ -1,25 +1,49 @@
 .card {
     display: flex;
     flex-direction: column;
-    background-color: white;
-    border-radius: 8px;
+    background: linear-gradient(to bottom, #FFFFFF 0%, #FDFCF9 100%);
+    border-radius: 16px;
     overflow: hidden;
     text-decoration: none;
     color: inherit;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(212, 175, 55, 0.1);
     height: 100%;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 16px;
+    padding: 2px;
+    background: var(--gradient-secondary);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(27, 48, 34, 0.1);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--shadow-luxury);
 }
 
 .imageWrapper {
     position: relative;
     aspect-ratio: 1;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #F5F2ED 0%, #FDFCF9 100%);
     overflow: hidden;
 }
 
@@ -27,80 +51,113 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover .image {
-    transform: scale(1.05);
+    transform: scale(1.08) rotate(1deg);
 }
 
 .badge {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: var(--color-secondary);
+    top: 12px;
+    right: 12px;
+    background: var(--gradient-secondary);
     color: var(--color-primary);
-    font-weight: bold;
-    font-size: 0.8rem;
-    padding: 4px 8px;
-    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 .content {
-    padding: 1.5rem;
+    padding: 1.75rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    background: linear-gradient(to bottom, transparent 0%, rgba(245, 242, 237, 0.3) 100%);
 }
 
 .rating {
     color: var(--color-secondary);
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    filter: drop-shadow(0 1px 2px rgba(212, 175, 55, 0.2));
 }
 
 .starEmpty {
-    color: #ddd;
+    color: rgba(212, 175, 55, 0.2);
 }
 
 .title {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
     font-family: var(--font-serif);
     color: var(--color-primary);
+    letter-spacing: 0.02em;
+    line-height: 1.3;
 }
 
 .priceContainer {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 1rem;
     margin-bottom: 1.5rem;
 }
 
 .price {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .originalPrice {
     text-decoration: line-through;
     color: #999;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
 }
 
 .button {
     margin-top: auto;
-    padding: 0.8rem;
+    padding: 1rem;
     width: 100%;
-    background-color: transparent;
-    border: 1px solid var(--color-primary);
+    background: transparent;
+    border: 2px solid var(--color-primary);
     color: var(--color-primary);
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    letter-spacing: 0.05em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    transition: left 0.3s ease;
+    z-index: -1;
 }
 
 .card:hover .button {
-    background-color: var(--color-primary);
     color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 16px rgba(10, 61, 44, 0.3);
+}
+
+.card:hover .button::before {
+    left: 0;
 }

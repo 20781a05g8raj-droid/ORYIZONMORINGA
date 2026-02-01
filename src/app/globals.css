@@ -1,14 +1,34 @@
 :root {
-  /* Brand Palette */
-  --color-primary: #1B3022; /* Forest Green */
-  --color-secondary: #C5A059; /* Deep Gold */
-  --color-background: #F9F7F2; /* Off-White/Soft Sand */
-  --color-text: #1B3022;
-  --color-text-light: #F9F7F2;
-  
+  /* Luxury Color Palette */
+  --color-primary: #0A3D2C;
+  /* Rich Emerald Green */
+  --color-secondary: #D4AF37;
+  /* Champagne Gold */
+  --color-accent: #B76E79;
+  /* Soft Rose Gold */
+  --color-background: #FDFCF9;
+  /* Soft Cream */
+  --color-background-alt: #F5F2ED;
+  /* Warm Beige */
+  --color-text: #2C2C2C;
+  /* Deep Charcoal */
+  --color-text-light: #FDFCF9;
+  /* Cream for dark backgrounds */
+
+  /* Gradient Utilities */
+  --gradient-primary: linear-gradient(135deg, #0A3D2C 0%, #0F5C41 100%);
+  --gradient-secondary: linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%);
+  --gradient-ambient: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+
   /* Layout */
   --max-width: 1400px;
   --header-height: 80px;
+
+  /* Shadow System */
+  --shadow-sm: 0 2px 8px rgba(10, 61, 44, 0.08);
+  --shadow-md: 0 4px 16px rgba(10, 61, 44, 0.12);
+  --shadow-lg: 0 8px 32px rgba(10, 61, 44, 0.16);
+  --shadow-luxury: 0 12px 48px rgba(212, 175, 55, 0.15), 0 4px 16px rgba(10, 61, 44, 0.1);
 }
 
 * {
@@ -21,7 +41,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: var(--color-background);
+  background: linear-gradient(to bottom, var(--color-background) 0%, var(--color-background-alt) 100%);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,6 +50,11 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-secondary);
 }
 
 img {
@@ -37,13 +62,41 @@ img {
   display: block;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-serif);
   font-weight: 700;
   line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 p {
   font-family: var(--font-sans);
-  line-height: 1.6;
+  line-height: 1.618;
+  /* Golden ratio */
+  letter-spacing: 0.01em;
+}
+
+/* Luxury scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-alt);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-secondary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
 }
